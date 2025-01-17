@@ -154,6 +154,7 @@ else:
       ef1=ef.iloc[1][5]#short haul
     else:ef1=ef.iloc[2][5]#long haul
     co2=weight*distance*ef1*(speed/100)**2/1000
+    st.write("Emission:",co2)
   except:
     st.write("Timed out for part 1, please try again")
   try:
@@ -165,10 +166,11 @@ else:
       ef2=ef.iloc[1][5]#short haul
     else:ef2=ef.iloc[2][5]#long haul
     Co2=weight*distance1*ef2*(speed/100)**2/1000
+    st.write("Emission:",Co2
   except:
     st.write("Timed out for part 2, please try again")
   tot=Co2+co2
-  st.write("CO2 Emission:",round(tot,1),"kg")
+  st.write("Total CO2 Emission:",round(tot,1),"kg")
   st.write("CO2 Emission to load ratio:",tot/weight)
   st.write("CO2 Emission to load ratio per km:",tot/weight/distance)
   tot/=1000
