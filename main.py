@@ -146,6 +146,7 @@ else:
             weight=aircraft1.iloc[0][1]*percent/100
             st.write("the weight of the aircraft is",round(weight,1),"kg")
   try:
+    st.write("First part of journey:")
     distance=calculate_distance(airport_code1, airport_code2)
     if check_same_country(airport_code1,airport_code2):
       ef1=ef.iloc[0][5]#domestic
@@ -156,6 +157,7 @@ else:
   except:
     st.write("Timed out for part 1, please try again")
   try:
+    st.write("Second part of journey:")
     distance1=calculate_distance(airport_code2, airport_code3)
     if check_same_country(airport_code3,airport_code2):
       ef2=ef.iloc[0][5]#domestic
