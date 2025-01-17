@@ -56,8 +56,8 @@ if choice=='1':
     route2=sr.searoute(intr,end)
     dist2=route2.properties['length']
     st.write("The distance of the second part of the journey is",round(dist1),"km"
-    dist=dist1+dist2
-    st.write("The total distance is",dist,"km")
+    distance=dist1+dist2
+    st.write("The total distance is",distance,"km")
     try:
       teu=int(st.text_input("Enter TEU capacity:"))
     except:
@@ -130,7 +130,7 @@ else:
   code3=st.text_input("Enter port code 3:")
   airport_code1=code1.strip().upper()
   airport_code2=code2.strip().upper()
-  airport_code3=code2.strip().upper()
+  airport_code3=code3.strip().upper()
   aircraft=st.text_input("Enter the aircraft, please enter the company name e.g. Airbus A340-500, Antonov An-225, Boeing 747-400")
     if aircraft:
       aircraft1=w[w["Type"].str.lower()==aircraft.lower().strip()]
