@@ -126,6 +126,12 @@ if choice=='1':
       st.write("Refrigerated Container Emission Intensity",ref_intensity)
 else:
   st.write("Current mode: Air")
+  airports0=x[x.columns[2]].values.tolist()
+  airports0=[str(i[-4:-1]) for i in airports0]
+  airports1=x[x.columns[4]].values.tolist()
+  airports1=[str(i[-4:-1]) for i in airports1]
+  x["Codes_Starting"]=airports0
+  x["Codes_Ending"]=airports1
   code1=st.text_input("Enter port code 1:")
   code2=st.text_input("Enter port code 2: (Intermediate)")
   code3=st.text_input("Enter port code 3:")
@@ -148,7 +154,11 @@ else:
             st.write("the weight of the aircraft is",round(weight,1),"kg")
   try:
     st.write("First part of journey:")
-    distance=calculate_distance(airport_code1, airport_code2)
+    target=x[(x["Codes_Starting"]==code1)&(x["Codes_Ending"])==code2)]
+    if target.empty:
+      distance=calculate_distance(airport_code1, airport_code2)
+    else:
+      distance=target.iloc[0][5]
     if check_same_country(airport_code1,airport_code2):
       ef1=ef.iloc[0][5]#domestic
     elif distance<3700:
@@ -160,7 +170,11 @@ else:
     st.write("Timed out for part 1, please try again")
   try:
     st.write("Second part of journey:")
-    distance1=calculate_distance(airport_code2, airport_code3)
+    target=x[(x["Codes_Starting"]==code3)&(x["Codes_Ending"])==code2)]
+    if target.empty:
+      distance=calculate_distance(airport_code3, airport_code2)
+    else:
+      distance=target.iloc[0][5]
     if check_same_country(airport_code3,airport_code2):
       ef2=ef.iloc[0][5]#domestic
     elif distance<3700:
