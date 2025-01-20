@@ -2,6 +2,7 @@ import streamlit as st
 import pandas
 import csv
 pandas.set_option('display.max_rows', None)
+x=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Main%20-%20Air%20shipping.csv")#distance
 ef=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Sheet1.csv")
 w=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/aircraft%20weight.csv")
 from geopy.distance import geodesic
@@ -40,7 +41,7 @@ def check_same_country(airport_code1, airport_code2):
   country2=get_airport_country(airport_code2)
   return (country1 and country2) and country1==country2
 st.header("Carbon Emission Transshipment")
-"Carbon emission calculator for 3 ports"
+"Carbon emission calculator for 3 ports, all air or all sea for now"
 choice=st.text_input("Enter mode 1 for sea and 0 for air(Default)")
 if choice=='1':
   st.write("Current mode: sea")
