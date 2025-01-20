@@ -132,12 +132,9 @@ else:
   airports1=[str(i[-4:-1]) for i in airports1]
   x["Codes_Starting"]=airports0
   x["Codes_Ending"]=airports1
-  code1=st.text_input("Enter port code 1:")
-  code2=st.text_input("Enter port code 2: (Intermediate)")
-  code3=st.text_input("Enter port code 3:")
-  airport_code1=code1.strip().upper()
-  airport_code2=code2.strip().upper()
-  airport_code3=code3.strip().upper()
+  code1=st.text_input("Enter port code 1:").strip().upper()
+  code2=st.text_input("Enter port code 2: (Intermediate)").strip().upper()
+  code3=st.text_input("Enter port code 3:").strip().upper()
   aircraft=st.text_input("Enter the aircraft, please enter the company name e.g. Airbus A340-500, Antonov An-225, Boeing 747-400")
     if aircraft:
       aircraft1=w[w["Type"].str.lower()==aircraft.lower().strip()]
@@ -154,12 +151,12 @@ else:
             st.write("the weight of the aircraft is",round(weight,1),"kg")
   try:
     st.write("First part of journey:")
-    target=x[(x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2)]
+    target=x[((x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
     if target.empty:
-      distance=calculate_distance(airport_code1, airport_code2)
+      distance=calculate_distance(code1,code2)
     else:
       distance=target.iloc[0][5]
-    if check_same_country(airport_code1,airport_code2):
+    if check_same_country(code1,code2):
       ef1=ef.iloc[0][5]#domestic
     elif distance<3700:
       ef1=ef.iloc[1][5]#short haul
@@ -170,12 +167,12 @@ else:
     st.write("Timed out for part 1, please try again")
   try:
     st.write("Second part of journey:")
-    target=x[(x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2)]
+    target=x[((x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
     if target.empty:
-      distance=calculate_distance(airport_code3, airport_code2)
+      distance1=calculate_distance(code3,code2)
     else:
-      distance=target.iloc[0][5]
-    if check_same_country(airport_code3,airport_code2):
+      distance1=target.iloc[0][5]
+    if check_same_country(code3,code2):
       ef2=ef.iloc[0][5]#domestic
     elif distance<3700:
       ef2=ef.iloc[1][5]#short haul
