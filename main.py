@@ -1,14 +1,13 @@
 import streamlit as st
 import pandas
 import csv
-pandas.set_option('display.max_rows', None)
 x=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Main%20-%20Air%20shipping.csv")#distance
 ef=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Sheet1.csv")
 w=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/aircraft%20weight.csv")
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 import searoute as sr
-def get_airport_coordinates(airport_code):
+def coord(airport_code):
   geolocator=Nominatim(user_agent="airport_distance_calculator")
   try:
     loc=geolocator.geocode(f"{airport_code} airport")
@@ -18,7 +17,7 @@ def get_airport_coordinates(airport_code):
       return None
   except:
     return None
-def get_airport_country(airport_code):
+def ctry(airport_code):
   geolocator=Nominatim(user_agent="airport_country_checker")
   try:
     location=geolocator.geocode(f"{airport_code} airport")
@@ -30,15 +29,15 @@ def get_airport_country(airport_code):
   except:
     return None
 def calculate_distance(airport_code1, airport_code2):
-  coords1=get_airport_coordinates(airport_code1)
-  coords2=get_airport_coordinates(airport_code2)
+  coords1=coord(airport_code1)
+  coords2=coord(airport_code2)
   if coords1 and coords2:
     distance=geodesic(coords1, coords2).kilometers
     st.write("Distance:",round(distance),'km')
     return distance
 def check_same_country(airport_code1, airport_code2):
-  country1=get_airport_country(airport_code1)
-  country2=get_airport_country(airport_code2)
+  country1=ctry(airport_code1)
+  country2=ctry(airport_code2)
   return (country1 and country2) and country1==country2
 st.header("Carbon Emission Transshipment")
 "Carbon emission calculator for 3 ports, all air or all sea for now"
@@ -60,7 +59,7 @@ if choice=='1':
     distance=dist1+dist2
     st.write("The total distance is",round(distance),"km")
     try:
-      teu=int(st.text_input("Enter TEU capacity:"))
+      teu=float(st.text_input("Enter TEU capacity:"))
     except:
       teu=24000
     try:
