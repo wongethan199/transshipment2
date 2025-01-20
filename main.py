@@ -53,10 +53,10 @@ if choice=='1':
     dest=lst[4:][::-1]
     route1=sr.searoute(orig,intr)
     dist1=route1.properties['length']
-    st.write("The distance of the first part of the journey is",round(dist1),"km"
+    st.write("The distance of the first part of the journey is",round(dist1),"km")
     route2=sr.searoute(intr,end)
     dist2=route2.properties['length']
-    st.write("The distance of the second part of the journey is",round(dist1),"km"
+    st.write("The distance of the second part of the journey is",round(dist1),"km")
     distance=dist1+dist2
     st.write("The total distance is",distance,"km")
     try:
@@ -154,7 +154,7 @@ else:
             st.write("the weight of the aircraft is",round(weight,1),"kg")
   try:
     st.write("First part of journey:")
-    target=x[(x["Codes_Starting"]==code1)&(x["Codes_Ending"])==code2)]
+    target=x[(x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2)]
     if target.empty:
       distance=calculate_distance(airport_code1, airport_code2)
     else:
@@ -170,7 +170,7 @@ else:
     st.write("Timed out for part 1, please try again")
   try:
     st.write("Second part of journey:")
-    target=x[(x["Codes_Starting"]==code3)&(x["Codes_Ending"])==code2)]
+    target=x[(x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2)]
     if target.empty:
       distance=calculate_distance(airport_code3, airport_code2)
     else:
