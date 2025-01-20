@@ -58,7 +58,7 @@ if choice=='1':
     dist2=route2.properties['length']
     st.write("The distance of the second part of the journey is",round(dist1),"km")
     distance=dist1+dist2
-    st.write("The total distance is",distance,"km")
+    st.write("The total distance is",round(distance),"km")
     try:
       teu=int(st.text_input("Enter TEU capacity:"))
     except:
@@ -174,7 +174,7 @@ else:
       distance1=target.iloc[0][5]
     if check_same_country(code3,code2):
       ef2=ef.iloc[0][5]#domestic
-    elif distance<3700:
+    elif distance1<3700:
       ef2=ef.iloc[1][5]#short haul
     else:ef2=ef.iloc[2][5]#long haul
     Co2=weight*distance1*ef2*(speed/100)**2/1000
@@ -182,10 +182,12 @@ else:
   except:
     st.write("Timed out for part 2, please try again")
   try:
+    st.write("Entire journey:")
+    st.write("Distance:",round(distance1+distance))
     tot=Co2+co2
-    st.write("Total CO2 Emission:",round(tot,1),"kg")
+    st.write("CO2 Emission:",round(tot,1),"kg")
     st.write("CO2 Emission to load ratio:",tot/weight)
-    st.write("CO2 Emission to load ratio per km:",tot/weight/distance)
+    st.write("CO2 Emission to load ratio per km:",tot/weight/(distance+distance1))
     tot/=1000
     st.write("This is equivalent to:",round(tot*370.37,1),"kg of rice,",round(tot*16.67,2),"kg of beef,",round(tot*833.33,1),"liters of milk, or",round(tot*0.8,4),"hectares of cropland of fertilizer")
     st.write("Also equivalent to:",round(tot/4.6,3),"years of carbon footprint for an average car,",round(tot/1.5,3),"flights of 10000km, or the average carbon footprint of",round(tot/4.8),"people in a year")
