@@ -166,13 +166,16 @@ else:
       ef2=ef.iloc[1][5]#short haul
     else:ef2=ef.iloc[2][5]#long haul
     Co2=weight*distance1*ef2*(speed/100)**2/1000
-    st.write("Emission:",Co2
+    st.write("Emission:",Co2)
   except:
     st.write("Timed out for part 2, please try again")
-  tot=Co2+co2
-  st.write("Total CO2 Emission:",round(tot,1),"kg")
-  st.write("CO2 Emission to load ratio:",tot/weight)
-  st.write("CO2 Emission to load ratio per km:",tot/weight/distance)
-  tot/=1000
-  st.write("This is equivalent to:",round(tot*370.37,1),"kg of rice,",round(tot*16.67,2),"kg of beef,",round(tot*833.33,1),"liters of milk, or",round(tot*0.8,4),"hectares of cropland of fertilizer")
-  st.write("Also equivalent to:",round(tot/4.6,3),"years of carbon footprint for an average car,",round(tot/1.5,3),"flights of 10000km, or the average carbon footprint of",round(tot/4.8),"people in a year")
+  try:
+    tot=Co2+co2
+    st.write("Total CO2 Emission:",round(tot,1),"kg")
+    st.write("CO2 Emission to load ratio:",tot/weight)
+    st.write("CO2 Emission to load ratio per km:",tot/weight/distance)
+    tot/=1000
+    st.write("This is equivalent to:",round(tot*370.37,1),"kg of rice,",round(tot*16.67,2),"kg of beef,",round(tot*833.33,1),"liters of milk, or",round(tot*0.8,4),"hectares of cropland of fertilizer")
+    st.write("Also equivalent to:",round(tot/4.6,3),"years of carbon footprint for an average car,",round(tot/1.5,3),"flights of 10000km, or the average carbon footprint of",round(tot/4.8),"people in a year")
+  except:
+    st.write("Unable to calculate because of timeout")
