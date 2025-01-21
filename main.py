@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas
 import csv
-x=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Main%20-%20Air%20shipping.csv")#distance
+pandas.set_option('display.max_rows', None)
+x=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Main%20-%20Air%20shipping.csv")#distance
 ef=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/ESG%20-%20Data%20sheet%20air%20freight%20shipping%20hubs.xlsx%20-%20Sheet1.csv")
 w=pandas.read_csv("https://raw.githubusercontent.com/wongethan199/carbon_emission_1/refs/heads/main/aircraft%20weight.csv")
+import searoute as sr
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
-import searoute as sr
 def coord(airport_code):
   geolocator=Nominatim(user_agent="airport_distance_calculator")
   try:
@@ -148,59 +149,60 @@ else:
           percent=max(min(float(percent),100),40)
           weight=aircraft1.iloc[0][1]*percent/100
           st.write("the weight of the aircraft is",round(weight,1),"kg")
-  try:
-    st.write("First part of journey:")
-    target=x[((x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
-    if target.empty:
-      distance=calculate_distance(code1,code2)
-      if check_same_country(code1,code2):
-        ef1=ef.iloc[0][5]#domestic
-      elif distance<3700:
-        ef1=ef.iloc[1][5]#short haul
-      else:ef1=ef.iloc[2][5]#long haul
-    else:
-      distance=target.iloc[0][5]
-      st.write("Distance:",distance,"km")
-      if target.iloc[0][1]==target.iloc[0][3]:
-        ef1=ef.iloc[0][5]#domestic
-      elif distance<3700:
-        ef1=ef.iloc[1][5]#short haul
-      else:ef1=ef.iloc[2][5]#long haul
-    co2=weight*distance*ef1*(speed/100)**2/1000
-    st.write("Emission:",round(co2,1),"kg")
-  except:
-    st.write("Timed out for part 1, please try again")
-  try:
-    st.write("Second part of journey:")
-    target=x[((x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code3)&(x["Codes_Starting"]==code2))]
-    if target.empty:
-      distance1=calculate_distance(code3,code2)
-      if check_same_country(code3,code2):
-        ef2=ef.iloc[0][5]#domestic
-      elif distance1<3700:
-        ef2=ef.iloc[1][5]#short haul
-      else:ef2=ef.iloc[2][5]#long haul
-    else:
-      distance1=target.iloc[0][5]
-      st.write("Distance:",distance1,"km")
-      if target.iloc[0][1]==target.iloc[0][3]:
-        ef2=ef.iloc[0][5]#domestic
-      elif distance1<3700:
-        ef2=ef.iloc[1][5]#short haul
-      else:ef2=ef.iloc[2][5]#long haul
-    Co2=weight*distance1*ef2*(speed/100)**2/1000
-    st.write("Emission:",round(Co2,1),"kg")
-  except:
-    st.write("Timed out for part 2, please try again")
-  try:
-    st.write("Entire journey:")
-    st.write("Distance:",round(distance1+distance))
-    tot=Co2+co2
-    st.write("CO2 Emission:",round(tot,1),"kg")
-    st.write("CO2 Emission to load ratio:",tot/weight)
-    st.write("CO2 Emission to load ratio per km:",tot/weight/(distance+distance1))
-    tot/=1000
-    st.write("This is equivalent to:",round(tot*370.37,1),"kg of rice,",round(tot*16.67,2),"kg of beef,",round(tot*833.33,1),"liters of milk, or",round(tot*0.8,4),"hectares of cropland of fertilizer")
-    st.write("Also equivalent to:",round(tot/4.6,3),"years of carbon footprint for an average car,",round(tot/1.5,3),"flights of 10000km, or the average carbon footprint of",round(tot/4.8),"people in a year")
-  except:
-    st.write("Unable to calculate because of timeout")
+  if code1 and code2 and code3:
+    try:
+      st.write("First part of journey:")
+      target=x[((x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
+      if target.empty:
+        distance=calculate_distance(code1,code2)
+        if check_same_country(code1,code2):
+          ef1=ef.iloc[0][5]#domestic
+        elif distance<3700:
+          ef1=ef.iloc[1][5]#short haul
+        else:ef1=ef.iloc[2][5]#long haul
+      else:
+        distance=target.iloc[0][5]
+        st.write("Distance:",distance,"km")
+        if target.iloc[0][1]==target.iloc[0][3]:
+          ef1=ef.iloc[0][5]#domestic
+        elif distance<3700:
+          ef1=ef.iloc[1][5]#short haul
+        else:ef1=ef.iloc[2][5]#long haul
+      co2=weight*distance*ef1*(speed/100)**2/1000
+      st.write("Emission:",round(co2,1),"kg")
+    except:
+      st.write("Timed out for part 1, please try again")
+    try:
+      st.write("Second part of journey:")
+      target=x[((x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code3)&(x["Codes_Starting"]==code2))]
+      if target.empty:
+        distance1=calculate_distance(code3,code2)
+        if check_same_country(code3,code2):
+          ef2=ef.iloc[0][5]#domestic
+        elif distance1<3700:
+          ef2=ef.iloc[1][5]#short haul
+        else:ef2=ef.iloc[2][5]#long haul
+      else:
+        distance1=target.iloc[0][5]
+        st.write("Distance:",distance1,"km")
+        if target.iloc[0][1]==target.iloc[0][3]:
+          ef2=ef.iloc[0][5]#domestic
+        elif distance1<3700:
+          ef2=ef.iloc[1][5]#short haul
+        else:ef2=ef.iloc[2][5]#long haul
+      Co2=weight*distance1*ef2*(speed/100)**2/1000
+      st.write("Emission:",round(Co2,1),"kg")
+    except:
+      st.write("Timed out for part 2, please try again")
+    try:
+      st.write("Entire journey:")
+      st.write("Distance:",round(distance1+distance),"km")
+      tot=Co2+co2
+      st.write("CO2 Emission:",round(tot,1),"kg")
+      st.write("CO2 Emission to load ratio:",tot/weight)
+      st.write("CO2 Emission to load ratio per km:",tot/weight/(distance+distance1))
+      tot/=1000
+      st.write("This is equivalent to:",round(tot*370.37,1),"kg of rice,",round(tot*16.67,2),"kg of beef,",round(tot*833.33,1),"liters of milk, or",round(tot*0.8,4),"hectares of cropland of fertilizer")
+      st.write("Also equivalent to:",round(tot/4.6,3),"years of carbon footprint for an average car,",round(tot/1.5,3),"flights of 10000km, or the average carbon footprint of",round(tot/4.8),"people in a year")
+    except:
+      st.write("Unable to calculate because of timeout")
