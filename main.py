@@ -153,31 +153,43 @@ else:
     target=x[((x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
     if target.empty:
       distance=calculate_distance(code1,code2)
+      if check_same_country(code1,code2):
+        ef1=ef.iloc[0][5]#domestic
+      elif distance<3700:
+        ef1=ef.iloc[1][5]#short haul
+      else:ef1=ef.iloc[2][5]#long haul
     else:
       distance=target.iloc[0][5]
-    if check_same_country(code1,code2):
-      ef1=ef.iloc[0][5]#domestic
-    elif distance<3700:
-      ef1=ef.iloc[1][5]#short haul
-    else:ef1=ef.iloc[2][5]#long haul
+      st.write("Distance:",distance,"km")
+      if target.iloc[0][1]==target.iloc[0][3]:
+        ef1=ef.iloc[0][5]#domestic
+      elif distance<3700:
+        ef1=ef.iloc[1][5]#short haul
+      else:ef1=ef.iloc[2][5]#long haul
     co2=weight*distance*ef1*(speed/100)**2/1000
-    st.write("Emission:",co2)
+    st.write("Emission:",round(co2,1),"kg")
   except:
     st.write("Timed out for part 1, please try again")
   try:
     st.write("Second part of journey:")
-    target=x[((x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
+    target=x[((x["Codes_Starting"]==code3)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code3)&(x["Codes_Starting"]==code2))]
     if target.empty:
       distance1=calculate_distance(code3,code2)
+      if check_same_country(code3,code2):
+        ef2=ef.iloc[0][5]#domestic
+      elif distance1<3700:
+        ef2=ef.iloc[1][5]#short haul
+      else:ef2=ef.iloc[2][5]#long haul
     else:
       distance1=target.iloc[0][5]
-    if check_same_country(code3,code2):
-      ef2=ef.iloc[0][5]#domestic
-    elif distance1<3700:
-      ef2=ef.iloc[1][5]#short haul
-    else:ef2=ef.iloc[2][5]#long haul
+      st.write("Distance:",distance1,"km")
+      if target.iloc[0][1]==target.iloc[0][3]:
+        ef2=ef.iloc[0][5]#domestic
+      elif distance1<3700:
+        ef2=ef.iloc[1][5]#short haul
+      else:ef2=ef.iloc[2][5]#long haul
     Co2=weight*distance1*ef2*(speed/100)**2/1000
-    st.write("Emission:",Co2)
+    st.write("Emission:",round(Co2,1),"kg")
   except:
     st.write("Timed out for part 2, please try again")
   try:
