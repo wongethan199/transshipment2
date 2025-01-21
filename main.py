@@ -53,9 +53,9 @@ if choice=='1':
     route1=sr.searoute(orig,intr)
     dist1=route1.properties['length']
     st.write("The distance of the first part of the journey is",round(dist1),"km")
-    route2=sr.searoute(intr,end)
+    route2=sr.searoute(intr,dest)
     dist2=route2.properties['length']
-    st.write("The distance of the second part of the journey is",round(dist1),"km")
+    st.write("The distance of the second part of the journey is",round(dist2),"km")
     distance=dist1+dist2
     st.write("The total distance is",round(distance),"km")
     try:
@@ -135,19 +135,19 @@ else:
   code2=st.text_input("Enter port code 2: (Intermediate)").strip().upper()
   code3=st.text_input("Enter port code 3:").strip().upper()
   aircraft=st.text_input("Enter the aircraft, please enter the company name e.g. Airbus A340-500, Antonov An-225, Boeing 747-400")
-    if aircraft:
-      aircraft1=w[w["Type"].str.lower()==aircraft.lower().strip()]
-      if aircraft1.empty:
-        st.write("No aircraft found")
-      else:
-        percent=st.text_input("enter % of maximum takeoff weight (Minimum 40)")
-        if percent:
-          speed=st.text_input("enter % of max speed")
-          if speed:
-            speed=min(100,float(speed))
-            percent=max(min(float(percent),100),40)
-            weight=aircraft1.iloc[0][1]*percent/100
-            st.write("the weight of the aircraft is",round(weight,1),"kg")
+  if aircraft:
+    aircraft1=w[w["Type"].str.lower()==aircraft.lower().strip()]
+    if aircraft1.empty:
+      st.write("No aircraft found")
+    else:
+      percent=st.text_input("enter % of maximum takeoff weight (Minimum 40)")
+      if percent:
+        speed=st.text_input("enter % of max speed")
+        if speed:
+          speed=min(100,float(speed))
+          percent=max(min(float(percent),100),40)
+          weight=aircraft1.iloc[0][1]*percent/100
+          st.write("the weight of the aircraft is",round(weight,1),"kg")
   try:
     st.write("First part of journey:")
     target=x[((x["Codes_Starting"]==code1)&(x["Codes_Ending"]==code2))|((x["Codes_Ending"]==code1)&(x["Codes_Starting"]==code2))]
