@@ -125,6 +125,7 @@ if choice=='1':
       ref_intensity=dry_intensity+ef2*ref_consum/distance/(percent/100)/ref_teu/1.9
       st.write("Refrigerated Container Emission Intensity",ref_intensity)
 else:
+  weight=0
   st.write("Current mode: Air")
   airports0=x[x.columns[2]].values.tolist()
   airports0=[str(i[-4:-1]) for i in airports0]
